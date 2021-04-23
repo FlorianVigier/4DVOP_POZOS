@@ -24,22 +24,13 @@ services:
     build: ./simple_api
     ports:
       - "5000:5000"
-    networks:
-      studentlist_network :
-        ipv4_address: 172.20.0.10  
+    networks: 
+      - studentlist_network
 
 #=============================================
 #==============================NETWORK SETTING
 #=============================================
-
-# Creation d'un réseau dédié à l'application pour intégrer toutes les apps
-# Permet de mettre l'app Flask en ip static et de pourvoir faire pointer l'url sur l'ip.
-# Les autres apps seront dans le réseau, mais avec une ip random.
 networks:
   studentlist_network:
-    driver: bridge
-    ipam:
-      config:
-      - subnet: 172.20.0.0/24
-        gateway: 172.20.0.1
+
 
