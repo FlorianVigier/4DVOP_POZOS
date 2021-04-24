@@ -9,8 +9,6 @@ services:
     build: ./website
     ports:
       - "8080:80"
-    networks: 
-      - studentlist_network
     depends_on:
       - "flask"
     environment:
@@ -24,13 +22,5 @@ services:
     container_name: flask
     restart: always
     build: ./simple_api
-    networks: 
-      - studentlist_network
-
-#=============================================
-#==============================NETWORK SETTING
-#=============================================
-networks:
-  studentlist_network:
 
 
