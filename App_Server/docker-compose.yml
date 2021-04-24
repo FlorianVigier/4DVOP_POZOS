@@ -22,8 +22,6 @@ services:
   flask:
     container_name: flask
     build: ./simple_api
-    ports:
-      - "5000:5000"
     networks: 
       - studentlist_network
 
