@@ -11,8 +11,6 @@ services:
         image: registry:2.7
         ports:
             - 5000:5000
-        networks:
-            - registry_network
         volumes:
         - ./storage:/var/lib/registry
         
@@ -25,16 +23,8 @@ services:
         image: joxit/docker-registry-ui:static
         ports:
             - 80:80
-        networks: 
-            - registry_network
         environment:
             - REGISTRY_URL=http://registry:5000
             - REGISTRY_TITLE=Registry interface
         depends_on:
             - registry
-
-#=============================================
-#==============================NETWORK SETTING
-#=============================================
-networks:
-    registry_network:
