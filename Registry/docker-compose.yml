@@ -17,7 +17,7 @@ services:
         - ./storage:/var/lib/registry
         
 #=============================================
-#=================PAGE GNINX POUR EXPLOIRATION
+#=================PAGE NGINX POUR EXPLOIRATION
 #=============================================
     front_end:
         container_name: registry_interface

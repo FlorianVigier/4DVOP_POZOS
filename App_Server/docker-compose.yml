@@ -5,6 +5,7 @@ services:
 #=============================================
   php-apache:
     container_name: website
+    restart: always
     build: ./website
     ports:
       - "8080:80"
@@ -21,6 +22,7 @@ services:
 #=============================================
   flask:
     container_name: flask
+    restart: always
     build: ./simple_api
     networks: 
       - studentlist_network
