@@ -5,6 +5,7 @@ pipeline {
             steps {
                 echo 'Building and Running ocker image from Dockerfile'
                 sh "docker build -t flask ."
+                sh "docker run -d -p 5000:5000 --name flask flask"
             }
         }
         stage('Test') {
