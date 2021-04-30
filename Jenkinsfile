@@ -5,6 +5,9 @@ pipeline {
             steps {
                 echo 'Building and Running ocker image from Dockerfile'
             }
+            steps {
+                echo 'Building and Running ocker image from Dockerfile'
+            }
         }
         stage('Test') {
             steps {
