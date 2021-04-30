@@ -1,10 +1,7 @@
 pipeline {
-    agent any
+    agent { Dockerfile true }
     stages {
         stage('Build') {
-            steps {
-                echo 'Building and Running ocker image from Dockerfile'
-            }
             steps {
                 echo 'Building and Running ocker image from Dockerfile'
             }
