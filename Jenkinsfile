@@ -18,11 +18,17 @@ pipeline {
         stage('Scan') {
             steps {
                 echo 'Test app vulnerability through clair scanner tool'
+                echo 'Runnung database'
+
                 sh 'docker run -d --name db arminc/clair-db'
-                sh 'sleep 15'
+                sh 'sleep 10'
+
+                echo 'Running clair scanner'
 
                 sh 'docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan'
                 sh 'sleep 1'
+
+                echo 'Running clair scan'
 
                 sh 'DOCKER_GATEWAY=$(docker network inspect bridge --format "{{range .IPAM.Config}}{{.Gateway}}{{end}}")'
                 sh 'wget -qO clair-scanner https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64 && chmod +x clair-scanner' 
