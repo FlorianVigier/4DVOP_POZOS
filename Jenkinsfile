@@ -23,8 +23,9 @@ pipeline {
                 sh 'docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan'
                 sh 'sleep 1'
 
-                sh 'DOCKER_GATEWAY=$(docker network inspect bridge --format "{{range .IPAM.Config}}{{.Gateway}}{{end}}")'
-                sh 'wget -qO clair-scanner https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64 && chmod +x clair-scanner ./clair-scanner --ip="$DOCKER_GATEWAY" flask || exit 0'
+                sh 'DOCKER_GATEWAY=$(docker network inspect bridge --format "{{range .IPAM.Config}}{{.Gateway}}{{end}}")
+                wget -qO clair-scanner https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64 && chmod +x clair-scanner 
+                ./clair-scanner --ip="$DOCKER_GATEWAY" flask || exit 0'
             }
         }
         stage('Push') {
