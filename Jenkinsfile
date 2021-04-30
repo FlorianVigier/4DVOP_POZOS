@@ -1,9 +1,15 @@
 pipeline {
-    agent { dockerfile true }
+    agent {
+        dockerfile { 
+        filename 'Dockerfile'
+        dir '.'
+        }
+    }
     stages {
         stage('Build') {
             steps {
                 echo 'Building and Running ocker image from Dockerfile'
+                sh 'docker --version'
             }
         }
         stage('Test') {
