@@ -10,7 +10,8 @@ pipeline {
         }
         stage('Test') {
             steps {
-                echo 'Testing if the apps works well'
+                echo 'Testing if the app work well'
+                sh 'sleep 5'
                 sh 'curl -u toto:python -X GET http://0.0.0.0:5000/pozos/api/v1.0/get_student_ages'
             }
         }
