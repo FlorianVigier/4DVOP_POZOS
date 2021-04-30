@@ -1,14 +1,12 @@
 pipeline {
-    agent {
-        dockerfile {
-            filename 'Dockerfile'
-            dir '/App_Server/simple_api'
-        }
-    }
+    agent { ./App_Server/simple_api/dockerfile true }
     stages {
         stage('Build') {
             steps {
-                echo 'Building and running docker image from Dockerfile'
+                echo 'Building docker image from Dockerfile'
+            }
+            step {
+                echo 'Running docker image'
             }
         }
         stage('Test') {
