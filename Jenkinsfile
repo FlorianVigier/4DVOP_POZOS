@@ -1,5 +1,5 @@
 pipeline {
-    agent { /App_Server/simple_api/dockerfile true }
+    agent { dockerfile true }
     stages {
         stage('Build') {
             steps {
