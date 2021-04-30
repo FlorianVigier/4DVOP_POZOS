@@ -1,13 +1,14 @@
 pipeline {
     agent {
-        dockerfile { 
-        filename 'Dockerfile'
-        dir '.'
-        }
+        any
+        // dockerfile { 
+        // dir './App_Server/simple_api/'
+        //}
     }
     stages {
         stage('Build') {
             steps {
+                files = findFiles(glob: '*.*')
                 echo 'Building and Running ocker image from Dockerfile'
                 sh 'docker --version'
             }
@@ -37,5 +38,11 @@ pipeline {
                 echo 'Testing trough Arachni tool'
             }
         }
+    post {
+        always {
+            echo 'stop the running container'
+            echo 'remove the running container'
+        }
+    }
     }
 }
