@@ -32,11 +32,5 @@ pipeline {
                 echo 'Testing trough Arachni tool'
             }
         }
-    post {
-        always {
-            echo 'stop the running container'
-            echo 'remove the running container'
-        }
-    }
     }
 }
