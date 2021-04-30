@@ -1,10 +1,10 @@
 pipeline {
-    agent {
-        any
-        // dockerfile { 
-        // dir './App_Server/simple_api/'
-        //}
-    }
+    agent any
+    /*{
+        dockerfile { 
+        dir './App_Server/simple_api/'
+        }
+    }*/
     stages {
         stage('Build') {
             steps {
