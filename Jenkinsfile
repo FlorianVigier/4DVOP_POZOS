@@ -26,6 +26,11 @@ pipeline {
                 sh 'DOCKER_GATEWAY=$(docker network inspect bridge --format "{{range .IPAM.Config}}{{.Gateway}}{{end}}")'
                 sh 'wget -qO clair-scanner https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64 && chmod +x clair-scanner' 
                 sh './clair-scanner --ip="$DOCKER_GATEWAY" flask || exit 0'
+
+                sh 'docker stop db'
+                sh 'docker rm db'
+                sh 'docker stop clair'
+                sh "docker rm clair'
             }
         }
         stage('Push') {
