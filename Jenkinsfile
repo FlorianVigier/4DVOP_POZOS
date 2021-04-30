@@ -52,6 +52,7 @@ pipeline {
         }
         stage('Clean') {
             steps {
+                echo 'Clean'
                 /*sh 'docker stop flask' 
                 sh 'docker rm flask'*/
             }
