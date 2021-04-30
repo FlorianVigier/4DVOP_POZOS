@@ -36,5 +36,11 @@ pipeline {
                 echo 'Testing trough Arachni tool'
             }
         }
+        stage('Clean') {
+            steps {
+                sh 'docker stop flask' 
+                sh 'docker rm flask'
+            }
+        }
     }
 }
