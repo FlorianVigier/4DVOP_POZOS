@@ -1,17 +1,10 @@
 pipeline {
     agent any
-    /*{
-        dockerfile { 
-        dir './App_Server/simple_api/'
-        }
-    }*/
     stages {
         stage('Build') {
             steps {
-                def files = findFiles(glob: '*.*')
-                echo files
                 echo 'Building and Running ocker image from Dockerfile'
-                sh 'docker --version'
+                sh "docker build -t flask ."
             }
         }
         stage('Test') {
