@@ -8,7 +8,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                files = findFiles(glob: '*.*')
+                def files = findFiles(glob: '*.*')
+                echo files
                 echo 'Building and Running ocker image from Dockerfile'
                 sh 'docker --version'
             }
