@@ -3,10 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building docker image from Dockerfile'
-            }
-            step {
-                echo 'Running docker image'
+                echo 'Building and Running ocker image from Dockerfile'
             }
         }
         stage('Test') {
