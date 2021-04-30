@@ -52,8 +52,8 @@ pipeline {
         }
         stage('Clean') {
             steps {
-                //sh 'docker stop flask' 
-                //sh 'docker rm flask'
+                /*sh 'docker stop flask' 
+                sh 'docker rm flask'*/
             }
         }
     }
