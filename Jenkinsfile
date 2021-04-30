@@ -30,7 +30,7 @@ pipeline {
                 sh 'docker stop db'
                 sh 'docker rm db'
                 sh 'docker stop clair'
-                sh "docker rm clair'
+                sh 'docker rm clair'
             }
         }
         stage('Push') {
