@@ -4,6 +4,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building and Running ocker image from Dockerfile'
+                echo '------------------------------------------------'
                 sh "docker build -t flask ."
                 sh "docker run -d -p 5000:5000 --name flask flask"
             }
@@ -11,6 +12,8 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing if the apps works well'
+                echo '------------------------------'
+                sh 'curl -u toto:python -X GET http://0.0.0.0:5000/pozos/api/v1.0/get_student_ages'
             }
         }
         stage('Scan') {
