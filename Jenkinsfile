@@ -4,6 +4,9 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building and Running ocker image from Dockerfile'
+                sh 'docker stop flask' 
+                sh 'docker rm flask'
+
                 sh "docker build -t flask ."
                 sh "docker run -d -p 5000:5000 --name flask flask"
             }
@@ -17,6 +20,12 @@ pipeline {
         }
         stage('Scan') {
             steps {
+                sh 'docker stop db' 
+                sh 'docker rm db'
+                
+                sh 'docker stop clair' 
+                sh 'docker rm clair'
+                
                 echo 'Test app vulnerability through clair scanner tool'
                 echo 'Running database'
 
@@ -31,8 +40,14 @@ pipeline {
                 echo 'Running clair scan'
 
                 sh 'DOCKER_GATEWAY=$(docker network inspect bridge --format "{{range .IPAM.Config}}{{.Gateway}}{{end}}")'
+
+                sh 'HOST_IP=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')'
+
                 sh 'wget -qO clair-scanner https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64 && chmod +x clair-scanner'
-                sh './clair-scanner --ip="$DOCKER_GATEWAY" flask || exit 0'
+                // sh './clair-scanner --ip="$DOCKER_GATEWAY" flask || exit 0'
+
+                sh './clair-scanner --ip ${HOST_IP} flask || exit 0'
+                 
             }
         }
         stage('Push') {
@@ -53,8 +68,8 @@ pipeline {
         stage('Clean') {
             steps {
                 echo 'Clean'
-                /*sh 'docker stop flask' 
-                sh 'docker rm flask'*/
+                sh 'docker stop flask' 
+                sh 'docker rm flask'
             }
         }
     }
