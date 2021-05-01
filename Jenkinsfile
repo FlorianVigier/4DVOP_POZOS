@@ -41,7 +41,7 @@ pipeline {
 
                 sh 'DOCKER_GATEWAY=$(docker network inspect bridge --format "{{range .IPAM.Config}}{{.Gateway}}{{end}}")'
 
-                sh "HOST_IP=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')"
+                HOST_IP=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
 
                 sh 'wget -qO clair-scanner https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64 && chmod +x clair-scanner'
                 // sh './clair-scanner --ip="$DOCKER_GATEWAY" flask || exit 0'
