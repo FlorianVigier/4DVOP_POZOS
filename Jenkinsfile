@@ -20,11 +20,11 @@ pipeline {
         }
         stage('Scan') {
             steps {
-                sh 'docker stop db' 
-                sh 'docker rm db'
+                sh 'docker stop db|| exit 0'
+                sh 'docker rm db|| exit 0'
                 
-                sh 'docker stop clair' 
-                sh 'docker rm clair'
+                sh 'docker stop clair|| exit 0'
+                sh 'docker rm clair|| exit 0'
                 
                 echo 'Test app vulnerability through clair scanner tool'
                 echo 'Running database'
