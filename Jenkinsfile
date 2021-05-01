@@ -3,9 +3,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building and Running ocker image from Dockerfile'
-                sh 'docker stop flask' 
-                sh 'docker rm flask'
+                echo 'Building and Running docker image from Dockerfile'
+                sh 'docker stop flask || exit 0'
+                sh 'docker rm flask || exit 0'
 
                 sh "docker build -t flask ."
                 sh "docker run -d -p 5000:5000 --name flask flask"
