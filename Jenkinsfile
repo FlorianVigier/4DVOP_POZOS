@@ -35,7 +35,7 @@ pipeline {
                 echo 'Running clair scanner'
 
                 sh 'docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan'
-                sh 'sleep 1'
+                sh 'sleep 5'
 
                 echo 'Running clair scan'
 
