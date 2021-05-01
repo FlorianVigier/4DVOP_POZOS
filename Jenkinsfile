@@ -20,11 +20,11 @@ pipeline {
         }
         stage('Scan') {
             steps {
-                sh 'docker stop db|| exit 0'
-                sh 'docker rm db|| exit 0'
+                sh 'docker stop db || exit 0'
+                sh 'docker rm db || exit 0'
                 
-                sh 'docker stop clair|| exit 0'
-                sh 'docker rm clair|| exit 0'
+                sh 'docker stop clair || exit 0'
+                sh 'docker rm clair || exit 0'
                 
                 echo 'Test app vulnerability through clair scanner tool'
                 echo 'Running database'
@@ -36,7 +36,6 @@ pipeline {
 
                 sh 'docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan'
                 sh 'sleep 5'
-
 
                 echo 'Running clair scan'
 
@@ -65,8 +64,12 @@ pipeline {
         stage('Clean') {
             steps {
                 echo 'Clean'
-                //sh 'docker stop flask' 
-                //sh 'docker rm flask'
+                sh 'docker stop flask || exit 0' 
+                sh 'docker rm flask || exit 0'
+                sh 'docker stop db || exit 0'
+                sh 'docker rm db || exit 0'
+                sh 'docker stop clair || exit 0'
+                sh 'docker rm clair || exit 0'
             }
         }
     }
