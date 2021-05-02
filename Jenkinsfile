@@ -51,6 +51,7 @@ pipeline {
                 echo 'Pushing the image to the registry'
                 sh 'docker image tag flask 192.168.1.49:5000/flask_$BUILD_ID'
                 sh 'docker push 192.168.1.49:5000/flask_$BUILD_ID'
+                sh 'docker image rm 192.168.1.49:5000/flask_$BUILD_ID'
 
             }
         }
