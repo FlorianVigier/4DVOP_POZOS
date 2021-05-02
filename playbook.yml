@@ -1,0 +1,38 @@
+---
+- name: Deploy pozos application
+  gather_facts: No
+  hosts: App Server
+  become: true
+  
+  tasks:
+# STOP BOTH CONTAINERS BEFORE DEPLOYING FLASK UPDATE
+#===================================================
+  - name: Stop flask container
+    docker_container:
+      name: website
+      state: stopped
+
+  - name: Stop website container
+    docker_container:
+      name: website
+      state: stopped
+  
+# CREATE NEW FLASK CONTAINER USING REGISTRY IMAGE
+#==============================================
+#  - name: create flask container
+#    docker_container:
+#      name: flask
+#      image: IMAGE_NAME
+
+# DEPLOY WEBSITE CONTAINER
+#=========================
+#  - name: Create website container
+#    command: docker build -t website ./website
+
+    #file:
+    #    path: ./Dockerfile
+    #    state: directory
+    #    owner: root
+    #    group: root
+    #    mode: '0755'
+
