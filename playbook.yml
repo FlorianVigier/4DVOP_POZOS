@@ -1,7 +1,7 @@
 ---
 - name: Deploy pozos application
   gather_facts: No
-  hosts: App_Server
+  hosts: 192.168.1.39
   become: true
   
   tasks:
