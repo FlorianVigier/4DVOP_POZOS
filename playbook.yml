@@ -27,8 +27,15 @@
       ports:
         - "5000:5000"
 
+# REMOVE OLD APP_SERVER DIRECTORY IN LOCAL SERVER
+#================================================
+  - name: remove app_server directory
+    file:
+      path: /4DVOP_POZOS/App_Server
+      state: absent
+
 # CLONE GIT > RECCUPERATION DU DOCKERFILE
-#=========================
+#========================================
   - name: Git clone repo App_Server
     ansible.builtin.git:
       repo: https://192.168.1.48/pozos/pozos.git
