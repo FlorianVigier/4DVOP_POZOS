@@ -19,17 +19,18 @@
   
 # CREATE NEW FLASK CONTAINER USING REGISTRY IMAGE
 #================================================
-#  - name: create flask container
-#    docker_container:
-#      name: flask
-#      image: IMAGE_NAME
+  - name: create flask container
+    docker_container:
+      name: flask
+      image: 192.168.1.48:flask:${BUILD_ID}
 
 # DEPLOY WEBSITE CONTAINER
 #=========================
-  - name: Create website container
-    docker_image:
-      build:
-        path: .
+#  - name: Create website container
+#    docker_image:
+#      build:
+#        path: ./
+#      name: website
 
 
 
