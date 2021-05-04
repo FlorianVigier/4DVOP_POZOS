@@ -31,8 +31,7 @@
 #=========================
   - name: Create website container
     docker_image:
-      build:
-        path: .
+      build: .
       name: website
 
 
