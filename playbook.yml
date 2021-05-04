@@ -20,7 +20,7 @@
 # CREATE NEW FLASK CONTAINER USING REGISTRY IMAGE
 #================================================
   - name: create flask container
-    community.docker.docker_container:
+    docker_container:
       insecure_registry: true
       name: flask
       image: 192.168.1.49:flask:${BUILD_ID}
