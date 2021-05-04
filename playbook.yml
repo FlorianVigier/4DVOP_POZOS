@@ -1,7 +1,7 @@
 ---
 - name: Deploy pozos application
   gather_facts: No
-  hosts: 192.168.1.39
+  hosts: App_Server
   become: true
   
   tasks:
@@ -9,7 +9,7 @@
 #===================================================
   - name: Stop flask container
     docker_container:
-      name: website
+      name: flask
       state: stopped
 
   - name: Stop website container
@@ -18,7 +18,7 @@
       state: stopped
   
 # CREATE NEW FLASK CONTAINER USING REGISTRY IMAGE
-#==============================================
+#================================================
 #  - name: create flask container
 #    docker_container:
 #      name: flask
@@ -26,13 +26,12 @@
 
 # DEPLOY WEBSITE CONTAINER
 #=========================
-#  - name: Create website container
-#    command: docker build -t website ./website
-
-    #file:
-    #    path: ./Dockerfile
-    #    state: directory
-    #    owner: root
-    #    group: root
-    #    mode: '0755'
+  - name: Create website container
+    command: docker build -t website ./website
+    file:
+      path: ./Dockerfile
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
 
