@@ -1,7 +1,7 @@
 ---
 - name: Deploy pozos application
   gather_facts: No
-  hosts: App_Server
+  hosts: all
   become: true
   
   tasks:
