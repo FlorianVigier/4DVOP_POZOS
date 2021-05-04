@@ -29,11 +29,11 @@
 
 # DEPLOY WEBSITE CONTAINER
 #=========================
-#  - name: Create website container
-#    docker_image:
-#      build:
-#        path: ./
-#      name: website
+  - name: Create website container
+    docker_image:
+      build:
+        path: ./
+      name: website
 
 
 
