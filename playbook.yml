@@ -8,19 +8,19 @@
 # STOP BOTH CONTAINERS BEFORE DEPLOYING FLASK UPDATE
 #===================================================
   - name: Stop flask container
-    docker_container:
+    community.docker.docker_container:
       name: flask
       state: stopped
 
   - name: Stop website container
-    docker_container:
+    community.docker.docker_container:
       name: website
       state: stopped
   
 # CREATE NEW FLASK CONTAINER USING REGISTRY IMAGE
 #================================================
   - name: create flask container
-    docker_container:
+    community.docker.docker_container:
       insecure_registry: true
       name: flask
       image: 192.168.1.49:flask:${BUILD_ID}
