@@ -31,7 +31,8 @@
 #=========================
   - name: Create website container
     docker_image:
-      build: .
+      build: 
+        path: ./4DVOP_POZOS/App_Server/website/
       name: website
 
 
