@@ -1,7 +1,7 @@
 ---
 - name: Deploy pozos application
   gather_facts: No
-  hosts: all
+  hosts: App_Server
   become: true
   
   tasks:
@@ -20,11 +20,12 @@
 # CREATE NEW FLASK CONTAINER USING REGISTRY IMAGE
 #================================================
   - name: create flask container
-    docker:
+    docker_container:
       insecure_registry: true
       name: flask
       image: 192.168.1.49:flask:${BUILD_ID}
       pull: always
+      state : started
       ports:
         - "5000:5000"
 
