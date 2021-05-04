@@ -27,13 +27,24 @@
       ports:
         - "5000:5000"
 
+# CLONE GIT > RECCUPERATION DU DOCKERFILE
+#=========================
+  - name: Git clone repo App_Server
+    ansible.builtin.git:
+      repo: https://192.168.1.48/pozos/pozos.git
+      dest: /4DVOP_POZOS/
+      #separate_git_dir: /src/ansible-examples.git
+
+
 # DEPLOY WEBSITE CONTAINER
 #=========================
   - name: Create website container
     docker_image:
       build: 
         path: /4DVOP_POZOS/App_Server/website/
+        source: build
       name: website
+      state: started
 
 
 
