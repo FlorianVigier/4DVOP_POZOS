@@ -22,7 +22,7 @@
   - name: create flask container
     docker_container:
       name: flask
-      image: 192.168.1.49:flask_223
+      image: 192.168.1.49:5000/flask_223
       state: started
       ports:
         - "5000:5000"
