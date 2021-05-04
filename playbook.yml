@@ -27,11 +27,17 @@
 # DEPLOY WEBSITE CONTAINER
 #=========================
   - name: Create website container
-    command: docker build -t website ./website
-    file:
-      path: ./Dockerfile
-        state: directory
-        owner: root
-        group: root
-        mode: '0755'
+    docker_image:
+      build:
+        path: .
+
+
+
+   # command: docker build -t website ./website
+    #file:
+     # path: ./Dockerfile
+      #  state: directory
+       # owner: root
+        #group: root
+        #mode: '0755'
 
