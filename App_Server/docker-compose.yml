@@ -1,0 +1,26 @@
+version: '3'
+services:
+#=============================================
+#=========================CONTAINER PHP-APACHE
+#=============================================
+  php-apache:
+    container_name: website
+    restart: always
+    build: ./website
+    ports:
+      - "8080:80"
+    depends_on:
+      - "flask"
+    environment:
+      - USERNAME=toto
+      - PASSWORD=python
+
+#=============================================
+#==============================CONTAINER FLASK
+#=============================================
+  flask:
+    container_name: flask
+    restart: always
+    build: ./simple_api
+
+

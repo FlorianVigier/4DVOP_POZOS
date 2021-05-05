@@ -42,7 +42,6 @@
       dest: /4DVOP_POZOS/
       #separate_git_dir: /src/ansible-examples.git
 
-
 # DEPLOY WEBSITE CONTAINER
 #=========================
   - name: Create website container

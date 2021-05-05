@@ -1,0 +1,30 @@
+
+version: "3"
+services:
+
+#=============================================
+#==============================DOCKER REGISTRY
+#=============================================
+    registry:
+        container_name: registry
+        restart: always
+        image: registry:2.7
+        ports:
+            - 5000:5000
+        volumes:
+        - ./storage:/var/lib/registry
+        
+#=============================================
+#=================PAGE NGINX POUR EXPLOIRATION
+#=============================================
+    front_end:
+        container_name: registry_interface
+        restart: always
+        image: joxit/docker-registry-ui:static
+        ports:
+            - 80:80
+        environment:
+            - REGISTRY_URL=http://registry:5000
+            - REGISTRY_TITLE=Registry interface
+        depends_on:
+            - registry

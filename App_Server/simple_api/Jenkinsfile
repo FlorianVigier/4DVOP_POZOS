@@ -58,6 +58,14 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+
+                ansiblePlaybook credentialsId: 'Dev-Server', 
+                disableHostKeyChecking: true, 
+                extras: "-e DOCKER_TAG=${COMMIT_HASH} -e user=adminuser", 
+                installation: 'Ansible Jenkins', 
+                inventory: 'dev.inv', 
+                playbook: 'deploy-ansible.yml'
+
             }
         }
         stage('Secure') {
