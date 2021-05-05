@@ -27,27 +27,20 @@
       ports:
         - "5000:5000"
 
-# REMOVE OLD APP_SERVER DIRECTORY IN LOCAL SERVER
-#================================================
-  - name: remove app_server directory
-    file:
-      path: /4DVOP_POZOS/App_Server
-      state: absent
-
 # CLONE GIT > RECCUPERATION DU DOCKERFILE
 #========================================
   - name: Git clone repo App_Server
-    ansible.builtin.git:
+    git:
       repo: https://192.168.1.48/pozos/pozos.git
-      dest: /4DVOP_POZOS/
-      #separate_git_dir: /src/ansible-examples.git
+      dest: ./pozos
+      force: yes
 
 # DEPLOY WEBSITE CONTAINER
 #=========================
   - name: Create website container
     docker_image:
       build: 
-        path: /4DVOP_POZOS/App_Server/website/
+        path: ./pozos/website/
         source: build
       name: website
       state: started
