@@ -2,7 +2,8 @@
 - name: Deploy pozos application
   gather_facts: No
   hosts: App_Server
-  become: true
+  #become: yes
+  #become_method: sudo
   
   tasks:
 # STOP BOTH CONTAINERS BEFORE DEPLOYING FLASK UPDATE
@@ -10,13 +11,15 @@
   - name: Stop flask container
     docker_container:
       name: flask
-      state: stopped
+      state: absent
+    ignore_errors: yes
 
   - name: Stop website container
     docker_container:
       name: website
-      state: stopped
-  
+      state: absent
+    ignore_errors: yes
+
 # CREATE NEW FLASK CONTAINER USING REGISTRY IMAGE
 #================================================
   - name: create flask container
@@ -27,31 +30,42 @@
       ports:
         - "5000:5000"
 
-# CLONE GIT > RECCUPERATION DU DOCKERFILE
-#========================================
-  - name: Git clone repo App_Server
+# COPY GITLAB REPO TO PRODUCTION SERVER
+#=======================================
+  - name: Clone a private repository into production server
     git:
-      repo: https://192.168.1.48/pozos/pozos.git
-      dest: ./pozos
-      force: yes
+      repo: git@192.168.1.48:pozos/pozos.git
+      version: master
+      dest: /pozos
+      accept_hostkey: yes
 
-# DEPLOY WEBSITE CONTAINER
+# BUILD WEBSITE CONTAINER
 #=========================
-  - name: Create website container
-    docker_image:
-      build: 
-        path: ./pozos/website/
-        source: build
-      name: website
-      state: started
+  - name: Build website container
+    command: "docker build -t website /pozos/website"
 
+# RUN  WEBSITE CONTAINER
+#=======================
+  - name: Run website container
+    command: "docker run --name website --link flask --env USERNAME=toto --env PASSWORD=python -d -p 80:80 website"
 
+# BUILD WEBSITE CONTAINER
+#=========================
+#  - name: Build website container
+#    docker_image:
+#      name: website
+#      build: 
+#        path: /pozos/website
+#      source: build
+#      state: present
 
-   # command: docker build -t website ./website
-    #file:
-     # path: ./Dockerfile
-      #  state: directory
-       # owner: root
-        #group: root
-        #mode: '0755'
-
+# RUN  WEBSITE CONTAINER
+#=======================
+#  - name: Run website container
+#    docker_container:
+#      name: website
+#      state: started
+#      links: 
+#        - "flask"
+#      ports: 
+#        - "80:80"
