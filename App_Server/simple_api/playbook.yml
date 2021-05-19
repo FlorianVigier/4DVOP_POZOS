@@ -27,6 +27,7 @@
       name: flask
       image: 192.168.1.49:5000/flask_{{ IMAGE_BUILD_ID }}
       state: started
+      restart_policy: always
       ports:
         - "5000:5000"
 
@@ -47,7 +48,7 @@
 # RUN  WEBSITE CONTAINER
 #=======================
   - name: Run website container
-    command: "docker run --name website --link flask --env USERNAME=toto --env PASSWORD=python -d -p 80:80 website"
+    command: "docker run --name website --link flask --restart always --env USERNAME=toto --env PASSWORD=python -d -p 8080:80 website"
 
 # BUILD WEBSITE CONTAINER
 #=========================

@@ -7,8 +7,8 @@ pipeline {
                 sh 'docker stop flask || exit 0'
                 sh 'docker rm flask || exit 0'
 
-                sh "docker build -t flask ."
-                sh "docker run -d -p 5000:5000 --name flask flask"
+                sh "docker build -t flask ./simple_api"
+                sh "docker run -d -p 5005:5005 --name flask flask"
             }
         }
         stage('Test') {
@@ -22,25 +22,20 @@ pipeline {
             steps {
                 sh 'docker stop db || exit 0'
                 sh 'docker rm db || exit 0'
-                
                 sh 'docker stop clair || exit 0'
                 sh 'docker rm clair || exit 0'
                 
                 echo 'Test app vulnerability through clair scanner tool'
                 echo 'Running database'
-
                 sh 'docker run -d --name db arminc/clair-db'
                 sh 'sleep 10'
 
                 echo 'Running clair scanner'
-
                 sh 'docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan'
                 sh 'sleep 5'
 
                 echo 'Running clair scan'
-
                 sh 'DOCKER_GATEWAY=$(docker network inspect bridge --format "{{range .IPAM.Config}}{{.Gateway}}{{end}}")'
-
                 sh 'wget -qO clair-scanner https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64 && chmod +x clair-scanner'
                 sh './clair-scanner --ip="172.17.0.1" flask || exit 0'
             
@@ -57,22 +52,29 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying....'
-
-                ansiblePlaybook credentialsId: 'Dev-Server', 
-                disableHostKeyChecking: true, 
-                extras: "-e DOCKER_TAG=${COMMIT_HASH} -e user=adminuser", 
-                installation: 'Ansible Jenkins', 
-                inventory: 'dev.inv', 
-                playbook: 'deploy-ansible.yml'
-
+                echo 'Deploying application on App Server'
+                   ansiblePlaybook(
+                        playbook: './simple_api/playbook.yml',
+                        disableHostKeyChecking: true,
+                        colorized: true,
+                        extras: '-e IMAGE_BUILD_ID=${BUILD_ID}')
             }
         }
         stage('Secure') {
             steps {
                 echo 'Testing trough Arachni tool'
+                sh 'sleep 5'
+                sshagent (credentials: ['Deployment_Server_SSH_Credential']) {
+
+                        sh 'ssh -tt StrictHostKeyChecking=no -T root@192.168.1.45'
+                        sh 'sh pwd'
+                        //sh 'sh root@192.168.1.45:/ls'
+                        //sh 'sh sudo chmod 775 /arachni-1.5.1-0.5.12/bin/arachni'
+                        //sh 'sh /arachni-1.5.1-0.5.12/bin/arachni http://192.168.1.39:8080'
+                }
             }
         }
+        
         stage('Clean') {
             steps {
                 echo 'Clean'
@@ -82,6 +84,8 @@ pipeline {
                 sh 'docker rm db || exit 0'
                 sh 'docker stop clair || exit 0'
                 sh 'docker rm clair || exit 0'
+                sh 'docker stop arachni || exit 0'
+                sh 'docker rm arachni || exit 0'
             }
         }
     }
