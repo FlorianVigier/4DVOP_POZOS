@@ -15,7 +15,7 @@ pipeline {
             steps {
                 echo 'Testing if the app work well'
                 sh 'sleep 5'
-                sh 'curl -u toto:python -X GET http://0.0.0.0:5000/pozos/api/v1.0/get_student_ages'
+                sh 'curl -u toto:python -X GET http://0.0.0.0:5005/pozos/api/v1.0/get_student_ages'
             }
         }
         stage('Scan') {
@@ -66,9 +66,10 @@ pipeline {
                 sh 'sleep 5'
                 sshagent (credentials: ['Deployment_Server_SSH_Credential']) {
 
-                        sh 'ssh -tt StrictHostKeyChecking=no -T root@192.168.1.45'
-                        sh 'sh pwd'
-                        //sh 'sh root@192.168.1.45:/ls'
+                        //sh 'ssh -t StrictHostKeyChecking=no root@192.168.1.45'
+                        //sh 'ssh -o StrictHostKeyChecking=no -l root 192.168.1.45 uname -a'
+                        sh 'ssh -o StrictHostKeyChecking=no -l root 192.168.1.45 /arachni-1.5.1-0.5.12/bin/arachni http://192.168.1.39:8080'
+
                         //sh 'sh sudo chmod 775 /arachni-1.5.1-0.5.12/bin/arachni'
                         //sh 'sh /arachni-1.5.1-0.5.12/bin/arachni http://192.168.1.39:8080'
                 }
