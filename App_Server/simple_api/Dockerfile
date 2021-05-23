@@ -1,4 +1,5 @@
 FROM python:3.6-stretch
+
 MAINTAINER FlorianVigier_AdrienGauthier_AudeGrantais <LaDreamTeam@supinfo.com>
 
 RUN apt-get update -y && apt-get install python-dev python3-dev libsasl2-dev python-dev libldap2-dev libssl-dev -y

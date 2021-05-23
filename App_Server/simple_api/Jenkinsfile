@@ -46,7 +46,7 @@ pipeline {
                 echo 'Pushing the image to the registry'
                 sh 'docker image tag flask 192.168.1.49:5000/flask_$BUILD_ID'
                 sh 'docker push 192.168.1.49:5000/flask_$BUILD_ID'
-                sh 'docker image rm 192.168.1.49:5000/flask_$BUILD_ID'
+                //sh 'docker image rm 192.168.1.49:5000/flask_$BUILD_ID'
 
             }
         }
@@ -65,13 +65,7 @@ pipeline {
                 echo 'Testing trough Arachni tool'
                 sh 'sleep 5'
                 sshagent (credentials: ['Deployment_Server_SSH_Credential']) {
-
-                        //sh 'ssh -t StrictHostKeyChecking=no root@192.168.1.45'
-                        //sh 'ssh -o StrictHostKeyChecking=no -l root 192.168.1.45 uname -a'
                         sh 'ssh -o StrictHostKeyChecking=no -l root 192.168.1.45 /arachni-1.5.1-0.5.12/bin/arachni http://192.168.1.39:8080'
-
-                        //sh 'sh sudo chmod 775 /arachni-1.5.1-0.5.12/bin/arachni'
-                        //sh 'sh /arachni-1.5.1-0.5.12/bin/arachni http://192.168.1.39:8080'
                 }
             }
         }
@@ -79,6 +73,9 @@ pipeline {
         stage('Clean') {
             steps {
                 echo 'Clean'
+                sshagent (credentials: ['Deployment_Server_SSH_Credential']) {
+                        sh 'ssh -o StrictHostKeyChecking=no -l root 192.168.1.39 docker image rm 192.168.1.49:5000/flask_$BUILD_ID'
+                }
                 sh 'docker stop flask || exit 0' 
                 sh 'docker rm flask || exit 0'
                 sh 'docker stop db || exit 0'
